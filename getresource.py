@@ -22,13 +22,15 @@ def main():
     #           (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
     
     result = client1.list_namespace()
-    # for i in result.items:
-    #     print("%s" %
-    #           (i.metadata.name)) 
+    ns_array = []
+    
+    for i in result.items:
+        ns_array.append(i.metadata.name)
+    ns = pick(ns_array)
     
     client2 = client.AppsV1Api( 
         api_client=config.new_client_from_config(context=cluster1))
-    result = client2.list_namespaced_deployment(namespace="lineman-beta")
+    result = client2.list_namespaced_deployment(namespace=ns)
     
     # pprint(result)
     for i in result.items:
